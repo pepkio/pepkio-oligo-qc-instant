@@ -1,0 +1,24 @@
+name: Trigger Software Heritage Archive
+
+on:
+  push:
+    branches: [ main ]
+  release:
+    types: [ published ]
+  workflow_dispatch:
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Request SWH Save
+        run: |
+          REPO_URL="https://github.com/${{ github.repository }}"
+          echo "Triggering SWH archive for: $REPO_URL"
+          RESPONSE=$(curl -s -X POST "https://archive.softwareheritage.org/api/1/origin/save/git/url/${REPO_URL}/")
+          echo "SWH Response: $RESPONSE"
+          TASK_ID=$(echo "$RESPONSE" | grep -o '"id":[0-9]*' | cut -d':' -f2)
+          if [ -n "$TASK_ID" ]; then
+            echo "Save request scheduled with task id: $TASK_ID"
+            echo "You can check status at: https://archive.softwareheritage.org/api/1/origin/save/$TASK_ID/"
+          fi

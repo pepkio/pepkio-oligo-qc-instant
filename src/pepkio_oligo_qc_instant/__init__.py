@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Python client for Pepkio oligo-qc-instant."""
 
 from .client import PepkioClient

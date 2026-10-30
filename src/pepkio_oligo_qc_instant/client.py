@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """HTTP client for the Pepkio oligo-qc-instant tool."""
 
 from __future__ import annotations
